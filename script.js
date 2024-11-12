@@ -6,7 +6,7 @@ let token =  JSON.parse(localStorage.getItem("token"))
 function loadMenu(resturanId) {
   user = JSON.parse(localStorage.getItem("user"));
   token =  JSON.parse(localStorage.getItem("token"))
-  if(user || !user.role || user.role !== 'Admin' ||  !user.resturant_id || !token){
+  if(!user || !user.role || user.role !== 'Admin' ||  !user.resturant_id || !token){
     window.location.href ="./login.html"
   }
  
