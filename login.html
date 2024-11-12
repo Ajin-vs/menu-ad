@@ -7,16 +7,17 @@
             // Get values from the input fields
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
 
             // Prepare the data to be sent
             const data = {
-                username: username,
-                password: password
+                resturant_id: username,
+                pass: password
             };
 
             try {
                 // Make a POST request
-                const response = await fetch("https://validate.ajdevelopers884.workers.dev/", {
+                const response = await fetch("https://validate.ajdevelopers884.workers.dev", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -27,13 +28,19 @@
                 // Check if the response is successful
                 if (response.ok) {
                     const result = await response.json();
-                    localStorage.setItem('user',JSON.stringify(result.token))
+                    localStorage.setItem('user', JSON.stringify(result.token));
                     console.log("Response:", result);
-                    // You can handle the response here (e.g., display a message, redirect)
+                    // Clear error message
+                    errorMessage.textContent = "";
+                    // Display a success message or redirect
+                    alert("Login successful!");
                 } else {
-                    console.error("Error:", response.statusText);
+                    const errorText = await response.text();
+                    errorMessage.textContent = `Error: ${errorText || response.statusText}`;
+                    console.error("Error:", errorText || response.statusText);
                 }
             } catch (error) {
+                errorMessage.textContent = "Network error. Please try again.";
                 console.error("Fetch error:", error);
             }
         }
@@ -41,11 +48,13 @@
 </head>
 <body>
     <h2>Login</h2>
+    <div id="error-message" style="color: red;"></div>
+
     <label for="username">Username:</label>
     <input type="text" id="username" /><br><br>
 
     <label for="password">Password:</label>
-    <input type="text" id="password" /><br><br>
+    <input type="password" id="password" /><br><br>
 
     <button onclick="login()">Submit</button>
 </body>
