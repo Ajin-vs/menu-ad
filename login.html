@@ -1,4 +1,52 @@
+<!DOCTYPE html>
 <html>
-    <head>Log</head>
-    <body>Login</body>
+<head>
+    <title>Login Form</title>
+    <script>
+        async function login() {
+            // Get values from the input fields
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Prepare the data to be sent
+            const data = {
+                username: username,
+                password: password
+            };
+
+            try {
+                // Make a POST request
+                const response = await fetch("https://validate.ajdevelopers884.workers.dev/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Check if the response is successful
+                if (response.ok) {
+                    const result = await response.json();
+                    localStorage.setItem('user',JSON.stringify(result.token))
+                    console.log("Response:", result);
+                    // You can handle the response here (e.g., display a message, redirect)
+                } else {
+                    console.error("Error:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Login</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" /><br><br>
+
+    <label for="password">Password:</label>
+    <input type="text" id="password" /><br><br>
+
+    <button onclick="login()">Submit</button>
+</body>
 </html>

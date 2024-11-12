@@ -2,10 +2,15 @@ let menuData = []
 let cart = [];  // Cart array to hold items
 let selected = undefined;
 function loadMenu(resturanId) {
-  console.log(resturanId);
-  let cleanedStr = resturanId.replace(/'/g, "");  // Removes all single quotes
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token =  JSON.parse(localStorage.getItem("token"))
+  if(!user.role || user.role !== 'Admin' ||  !user.resturant_id || !token){
+    window.location.href ="./login.html"
+  }
+ 
+  let cleanedStr = user.resturant_id.replace(/'/g, "");  // Removes all single quotes
 
-  if (resturanId) {
+  if (user.resturant_id) {
     const cldUrl = `https://pub-fbdbb25b0f934dd8b443b70f85c547a0.r2.dev/${cleanedStr}.json`
     // Fetch the file from S3
     fetch(cldUrl)
