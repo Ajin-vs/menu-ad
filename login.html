@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
     <script>
         async function login() {
@@ -8,6 +10,12 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
+
+            // // Validate inputs
+            // if (!username || !password) {
+            //     errorMessage.textContent = "Username and Password are required.";
+            //     return;
+            // }
 
             // Prepare the data to be sent
             const data = {
@@ -17,7 +25,7 @@
 
             try {
                 // Make a POST request
-                const response = await fetch("https://validate.ajdevelopers884.workers.dev", {
+                const response = await fetch("http://validate.ajdevelopers884.workers.dev/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -28,16 +36,20 @@
                 // Check if the response is successful
                 if (response.ok) {
                     const result = await response.json();
-                    localStorage.setItem('user', JSON.stringify(result.token));
-                    console.log("Response:", result);
+                    localStorage.setItem('user', JSON.stringify(result.data)); // Save token to localStorage
+                    localStorage.setItem('token', JSON.stringify(result.token)); // Save token to localStorage
+
                     // Clear error message
                     errorMessage.textContent = "";
+
                     // Display a success message or redirect
                     alert("Login successful!");
+                    window.location.href = './index.html'; // Redirect to a new page (optional)
                 } else {
-                    const errorText = await response.text();
-                    errorMessage.textContent = `Error: ${errorText || response.statusText}`;
-                    console.error("Error:", errorText || response.statusText);
+                    // If response is not ok, display the error message
+                    const errorText = await response.json();  // Get JSON error message
+                    errorMessage.textContent = `Error: ${errorText.error || response.statusText}`;
+                    console.error("Error:", errorText.error || response.statusText);
                 }
             } catch (error) {
                 errorMessage.textContent = "Network error. Please try again.";
