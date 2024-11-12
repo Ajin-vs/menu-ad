@@ -1,10 +1,12 @@
 let menuData = []
 let cart = [];  // Cart array to hold items
 let selected = undefined;
+let user = JSON.parse(localStorage.getItem("user"));
+let token =  JSON.parse(localStorage.getItem("token"))
 function loadMenu(resturanId) {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token =  JSON.parse(localStorage.getItem("token"))
-  if(!user.role || user.role !== 'Admin' ||  !user.resturant_id || !token){
+  user = JSON.parse(localStorage.getItem("user"));
+  token =  JSON.parse(localStorage.getItem("token"))
+  if(user || !user.role || user.role !== 'Admin' ||  !user.resturant_id || !token){
     window.location.href ="./login.html"
   }
  
