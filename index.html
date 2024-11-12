@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Menu</title>
+  <link rel="stylesheet" href="styles.css?v=2">
+</head>
+
+<body>
+  <div id="json-content"></div>
+
+  <div>
+
+
+    <!-- Header with Logo -->
+    <header class="header"  >
+      <img src="logo.jpg" alt="Restaurant Logo" class="logo">
+      <h1 class="restaurant-name">Urban Cafe</h1>
+    </header>
+    <!-- Category Navigation Bar -->
+    <!-- Navigation for categories will be added here -->
+    <nav class="category-nav" style="position: sticky;"></nav>
+  
+    <!-- Menu Section -->
+    <section id="menu-section" style="position: sticky; margin-bottom: 62px;"></section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="cart-modal" style="display:none;">
+      <div class="cart-content">
+        <span onclick="closeCartModal()" class="close-button">&times;</span>
+        <h2 style="text-align: center; color: #ff5722;">Your Feast</h2>
+        <div id="cart-items"></div>
+        <p id="total-amount" style="text-align: right;"></p>
+        <!-- <button onclick="checkout()">Checkout</button> -->
+      </div>
+    </div>
+  </div>    
+  <script src="script.js?v=2"></script>
+</body>
+
+</html>
