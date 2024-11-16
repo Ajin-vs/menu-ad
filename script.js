@@ -419,6 +419,10 @@ function openCartModal(categoryId = '', menu = '', type) {
     menuH2.innerHTML = 'Add Menu'
     menBtn.innerHTML = 'Add Menu'
     categoryDropdown.setAttribute('aria-selected', false); // Set aria-selected to false
+    categoryDropdown.value = ''; // Set selected category based on categoryId
+    name.value = '';
+    description.value = '';
+    price.value = '';
     menuForm.onsubmit = (event) => addMenu(event);
   }
   modal.style.display = "flex";
