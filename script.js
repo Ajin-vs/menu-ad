@@ -539,7 +539,7 @@ function closeCategoryModal() {
   errorMessage.innerText = ''
 }
 // Placeholder for checkout
-function addCategory(event) {
+async function addCategory(event) {
   event.preventDefault();
   let newCategoryName = document.getElementById('categor').value;
 
@@ -552,7 +552,7 @@ function addCategory(event) {
     console.log(menuData);
     closeCategoryModal();
     loadCategoryItems();
-    uploadFile()
+    await uploadFile()
     console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
   } else {
     document.getElementById('err').innerHTML = `Category "${newCategoryName}" already exists.`
