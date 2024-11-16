@@ -732,6 +732,7 @@ async function  uploadresult (){
 
 async function uploadFile(){
   try {
+    urpl = JSON.parse(localStorage.getItem("uprl"));
     if(urpl && user.role === "Admin" && user.resturant_id){
       try {
         const response = await fetch(urpl, {
