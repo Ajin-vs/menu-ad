@@ -8,6 +8,7 @@ let token = JSON.parse(localStorage.getItem("token"));
 let urpl = JSON.parse(localStorage.getItem("uprl"));
 let section = 'menu'
 let thumbnailBase64;
+let retryCount = 0;
 function loadMenu(resturanId) {
   user = JSON.parse(localStorage.getItem("user"));
   token = JSON.parse(localStorage.getItem("token"))
@@ -550,10 +551,14 @@ async function addCategory(event) {
     // Add the new category to menuData
     menuData.menu.push({ id: generateUniqueId(), category: newCategoryName.trim(), items: [] });
     console.log(menuData);
-    closeCategoryModal();
-    loadCategoryItems();
-    await uploadFile()
-    console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
+    uploadFile().then(()=>{
+      closeCategoryModal();
+      loadCategoryItems();
+      console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
+    }).catch((err)=>{
+      console.log(err,"after upload");
+      
+    })    
   } else {
     document.getElementById('err').innerHTML = `Category "${newCategoryName}" already exists.`
     console.log(`Category "${newCategoryName}" already exists.`);
@@ -750,14 +755,26 @@ async function uploadFile(){
         }
       } catch (error) {
         console.error("Error uploading JSON:", error);
+        if (retryCount < 2) {
+          retryCount++;
+          console.log(`Retrying upload... Attempt ${retryCount}`);
+          await uploadResult();
+          await uploadFile();
+        } else {
+          console.error("Maximum retry attempts reached. Stopping.");
+        }
       }
     }
     else{
-      await uploadresult()
-      await uploadFile();
+      if(retryCount < 2){
+        retryCount++;
+        await uploadresult()
+        await uploadFile();
+      }
+      
     }
   } catch (error) {
-    
+    console.log(error);
   }
 }
 // uploadFile();
