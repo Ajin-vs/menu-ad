@@ -687,7 +687,7 @@ function editCategory(index) {
 }
 
 
-async function  upload (){
+async function  uploadresult (){
   if(token && user.role === 'Admin'){
     const resturant_id = user.resturant_id
     const response = await fetch("https://generate-upload.ajdevelopers884.workers.dev/", {
@@ -697,10 +697,18 @@ async function  upload (){
           "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({resturant_id})
-  });
-  console.log(response);
+    });
+    if (response.ok) {
+      const result = await response.json();
+      localStorage.setItem('uprl', JSON.stringify(result.url)); // Save token to localStorage
+  } else {
+      window.location.href = './login.html'; // Redirect to a new page (optional)
+  }
   
   }
 }
 
-upload();
+// function uploadFile(){
+//   uploadresult
+// }
+uploadresult();
