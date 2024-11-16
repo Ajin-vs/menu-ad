@@ -525,9 +525,15 @@ function updateCategory(cat, id, event) {
     console.error(`Category with ID ${id} not found!`);
   }
 
-  // Close the modal and refresh the list
-  closeCategoryModal();
-  loadCategoryItems();
+  uploadFile().then(()=>{
+    closeCategoryModal();
+    loadCategoryItems();
+    retryCount = 0;
+    console.log(`Category "${newCategoryName}" updated to menuData and dropdown.`);
+  }).catch((err)=>{
+    console.log(err,"after upload");
+    
+  })    
 }
 
 function closeCartModal() {
@@ -545,7 +551,7 @@ async function addCategory(event) {
   let newCategoryName = document.getElementById('categor').value;
 
   // Check if the category already exists to avoid duplicates
-  const categoryExists = menuData.menu.some(category => category.category === newCategoryName);
+  const categoryExists = menuData.menu.some(category => category.category.toLowerCase() === newCategoryName.toLowerCase());
 
   if (!categoryExists) {
     // Add the new category to menuData
