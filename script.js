@@ -40,7 +40,14 @@ function loadMenu(resturanId) {
       .then(data => {
         menuData = data
         const capt = document.getElementById("capt");
-        capt.innerHTML = menuData.resturant
+        const logimg = document.getElementById("logimg");
+        capt.innerHTML = menuData.resturant;
+        if (logimg && menuData && menuData.logo) {
+          logimg.src = menuData.logo;
+          console.log("Logo image set successfully.");
+        } else {
+          console.error("Failed to set the logo image. Ensure the element exists and menuData.logo is valid.");
+        }
         createMenu(menuData);
       })
       .catch(error => {
