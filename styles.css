@@ -157,13 +157,27 @@ header {
   cursor: pointer;
   font-size: 1.5rem;
 }
-
-/* View Cart Button */
-.view-cart-button {
+.btn{
   position: fixed;
   bottom: 10px;
   left: 50%; /* Centers horizontally */
   transform: translateX(-50%); /* Adjusts the element back to center */
+  /* padding: 10px 20px; */
+  /* background-color: #ff5722; */
+  /* color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; */
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+/* View Cart Button */
+.view-cart-button {
+  /* position: fixed; */
+  /* bottom: 10px;
+  left: 50%; Centers horizontally */
+  /* transform: translateX(-50%); Adjusts the element back to center */
   padding: 10px 20px;
   background-color: #ff5722;
   color: white;
@@ -214,16 +228,23 @@ button:active {
 
 /* Add to Cart Button Styles */
 .add-cart {
-  background-color: #ff5722; /* Bright and eye-catching color */
-  color: white;
+  background-color: transparent !important;
+  background: none !important;
+  color: #007bff !important;
   padding: 5px 10px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 0.85rem;
-  transition: background-color 0.3s, transform 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: "16px" !important;
+  float: right;
+}
+.add-menu {
+  background-color: transparent !important;
+  background: none !important;
+  color: #007bff !important;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  font-size: "16px" !important;
   float: right;
 }
 
@@ -295,4 +316,85 @@ button:active {
 
 #total-amount {
   font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 26px;
+}
+
+.form-group label {
+  display: block;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif !important;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  background-color: rgb(191, 188, 188);
+  border: none;
+}
+
+.tab-button.active {
+  background-color: #e64a19;
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 11px;
+  border-bottom: 1px solid #ddd; /* Optional: Add separator lines */
+}
+
+li span {
+  flex: 1; /* Allow the category text to take up available space */
+  text-align: left; /* Align text to the left */
+}
+
+li button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px; /* Add spacing between buttons */
+}
+
+li button.edit-icon {
+  color: #007bff; /* Blue color for edit icon */
+}
+
+li button.delete-icon {
+  color: #dc3545; /* Red color for delete icon */
+}
+
+li button:hover {
+  opacity: 0.8; /* Add a hover effect */
 }
