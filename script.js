@@ -754,7 +754,6 @@ async function uploadFile(){
     else{
       await uploadresult()
       await uploadFile();
-      
     }
   } catch (error) {
     
