@@ -759,7 +759,7 @@ async function uploadFile(){
         if (retryCount < 2) {
           retryCount++;
           console.log(`Retrying upload... Attempt ${retryCount}`);
-          await uploadResult();
+          await uploadresult();
           await uploadFile();
         } else {
           window.location.href = "./login.html"
