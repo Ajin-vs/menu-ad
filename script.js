@@ -1,5 +1,7 @@
 let menuData = {
-  menu: [], active: true
+  menu: [], active: true,
+  logo:"",
+  resturant: ""
 };
 let cart = [];  // Cart array to hold items
 let selected = undefined;
@@ -37,6 +39,8 @@ function loadMenu(resturanId) {
       })
       .then(data => {
         menuData = data
+        const capt = document.getElementById("capt");
+        capt.innerHTML = menuData.resturant
         createMenu(menuData);
       })
       .catch(error => {
