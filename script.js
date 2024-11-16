@@ -192,32 +192,37 @@ function createMenu(menuData) {
 }
 function deleteMenu(categoryId, itemId) {
   const confirmDelete = confirm("Are you sure you want to delete this Menu?");
-  if(confirmDelete){
+  if (confirmDelete) {
     // Find the category containing the item
-  const category = menuData.menu.find(c => c.id === categoryId);
+    const category = menuData.menu.find(c => c.id === categoryId);
 
-  if (!category) {
-    console.error("Category not found");
-    return;
+    if (!category) {
+      console.error("Category not found");
+      return;
+    }
+
+    // Find the item to delete
+    const itemIndex = category.items.findIndex(i => i.id === itemId);
+
+    if (itemIndex === -1) {
+      console.error("Item not found in category");
+      return;
+    }
+
+    // Remove the item from the category
+    category.items.splice(itemIndex, 1);
+
+    console.log(`Item with ID ${itemId} removed from category ${categoryId}`);
+    uploadFile().then(() => {
+      // Refresh the menu display
+      createMenu(menuData);
+      retryCount = 0;
+      console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
+    }).catch((err) => {
+      console.log(err, "after upload");
+    })
   }
 
-  // Find the item to delete
-  const itemIndex = category.items.findIndex(i => i.id === itemId);
-
-  if (itemIndex === -1) {
-    console.error("Item not found in category");
-    return;
-  }
-
-  // Remove the item from the category
-  category.items.splice(itemIndex, 1);
-
-  console.log(`Item with ID ${itemId} removed from category ${categoryId}`);
-
-  // Refresh the menu display
-  createMenu(menuData);
-  }
-  
 }
 
 function generateThumbnail(input) {
@@ -281,7 +286,7 @@ async function addMenu(event) {
 
   // Find existing category by ID, or add a new one with a unique ID
   let existingCategory = menuData.menu.find(item => item.id === category);
-  console.log(existingCategory, "existing Categr", category);
+  console.log(existingCategory, "existing Category", category);
 
   if (existingCategory) {
     existingCategory.items.push(newItem);
@@ -293,10 +298,17 @@ async function addMenu(event) {
     menuData.menu.push(newCategory);
   }
 
-  // Refresh the menu display
-  createMenu(menuData);
-  thumbnailBase64 ='';
-  closeCartModal();
+  uploadFile().then(() => {
+    // Refresh the menu display
+    createMenu(menuData);
+    thumbnailBase64 = '';
+    closeCartModal();
+    retryCount = 0;
+    console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
+  }).catch((err) => {
+    console.log(err, "after upload");
+  })
+
 }
 
 function navLinkClick(categoryId, e) {
@@ -402,12 +414,12 @@ function openCartModal(categoryId = '', menu = '', type) {
     name.value = menu.name;
     description.value = menu.description;
     price.value = menu.price;
-    menuForm.onsubmit = (event)=>updateMenu(event, menu.id, categoryId);
+    menuForm.onsubmit = (event) => updateMenu(event, menu.id, categoryId);
   } else {
     menuH2.innerHTML = 'Add Menu'
     menBtn.innerHTML = 'Add Menu'
     categoryDropdown.setAttribute('aria-selected', false); // Set aria-selected to false
-    menuForm.onsubmit = (event)=>addMenu(event);
+    menuForm.onsubmit = (event) => addMenu(event);
   }
   modal.style.display = "flex";
 }
@@ -460,10 +472,16 @@ function updateMenu(event, itemId, categoryId) {
     console.log(`Item moved from category ${categoryId} to ${newCategoryId}`);
   }
   thumbnailBase64 = ''; // Reset thumbnail
-  // Refresh the menu display after update
-  createMenu(menuData);
-  // Close the modal
-  closeCartModal();
+  uploadFile().then(() => {
+    // Refresh the menu display
+    createMenu(menuData);
+    thumbnailBase64 = '';
+    closeCartModal();
+    retryCount = 0;
+    console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
+  }).catch((err) => {
+    console.log(err, "after upload");
+  })
 }
 
 
@@ -525,15 +543,15 @@ function updateCategory(cat, id, event) {
     console.error(`Category with ID ${id} not found!`);
   }
 
-  uploadFile().then(()=>{
+  uploadFile().then(() => {
     closeCategoryModal();
     loadCategoryItems();
     retryCount = 0;
     console.log(`Category "${newCategoryName}" updated to menuData and dropdown.`);
-  }).catch((err)=>{
-    console.log(err,"after upload");
-    
-  })    
+  }).catch((err) => {
+    console.log(err, "after upload");
+
+  })
 }
 
 function closeCartModal() {
@@ -557,15 +575,15 @@ async function addCategory(event) {
     // Add the new category to menuData
     menuData.menu.push({ id: generateUniqueId(), category: newCategoryName.trim(), items: [] });
     console.log(menuData);
-    uploadFile().then(()=>{
+    uploadFile().then(() => {
       closeCategoryModal();
       loadCategoryItems();
       retryCount = 0;
       console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
-    }).catch((err)=>{
-      console.log(err,"after upload");
-      
-    })    
+    }).catch((err) => {
+      console.log(err, "after upload");
+
+    })
   } else {
     document.getElementById('err').innerHTML = `Category "${newCategoryName}" already exists.`
     console.log(`Category "${newCategoryName}" already exists.`);
@@ -681,13 +699,13 @@ function deleteCategory(id) {
   if (confirmDelete) {
     // Remove the category from menuData based on id
     menuData.menu = menuData.menu.filter((item) => item.id !== id);
-    uploadFile().then(()=>{
+    uploadFile().then(() => {
       loadCategoryItems();
       retryCount = 0;
       console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
-    }).catch((err)=>{
-      console.log(err,"after upload");
-    })  
+    }).catch((err) => {
+      console.log(err, "after upload");
+    })
     console.log(`Category with ID ${id} has been deleted.`);
   }
 }
@@ -699,47 +717,47 @@ function editCategory(index) {
 
   if (newCategoryName !== null && newCategoryName.trim() !== "") {
     menuData.menu[index].category = newCategoryName; // Update category name
-    uploadFile().then(()=>{
+    uploadFile().then(() => {
       closeCategoryModal();
       loadCategoryItems();
       retryCount = 0;
       console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
-    }).catch((err)=>{
-      console.log(err,"after upload");
-    })    
+    }).catch((err) => {
+      console.log(err, "after upload");
+    })
   }
 }
 
 
-async function  uploadresult (){
+async function uploadresult() {
   try {
-    if(token && user.role === 'Admin'){
+    if (token && user.role === 'Admin') {
       const resturant_id = user.resturant_id
       const response = await fetch("https://generate-upload.ajdevelopers884.workers.dev/", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({resturant_id})
+        body: JSON.stringify({ resturant_id })
       });
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem('uprl', JSON.stringify(result.url)); // Save token to localStorage
-    } else {
+      } else {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         localStorage.removeItem("uprl");
         window.location.href = "./login.html"; // Redirect to a new page (optional)
+      }
+
     }
-    
-    }
-    else{
+    else {
       console.error("Fetch error:", error);
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       localStorage.removeItem("uprl");
-      window.location.href = "./login.html"; 
+      window.location.href = "./login.html";
     }
   } catch (error) {
     // errorMessage.textContent = "Network error. Please try again.";
@@ -747,15 +765,15 @@ async function  uploadresult (){
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("uprl");
-    window.location.href = "./login.html"; 
-}
- 
+    window.location.href = "./login.html";
+  }
+
 }
 
-async function uploadFile(){
+async function uploadFile() {
   try {
     urpl = JSON.parse(localStorage.getItem("uprl"));
-    if(urpl && user.role === "Admin" && user.resturant_id){
+    if (urpl && user.role === "Admin" && user.resturant_id) {
       try {
         const response = await fetch(urpl, {
           method: "PUT", // Use PUT or POST based on how the signed URL is configured
@@ -764,7 +782,7 @@ async function uploadFile(){
           },
           body: JSON.stringify(menuData) // Convert JSON object to string
         });
-    
+
         if (response.ok) {
           console.log("Upload successful:", await response.text());
         } else {
@@ -783,16 +801,16 @@ async function uploadFile(){
         }
       }
     }
-    else{
-      if(retryCount < 2){
+    else {
+      if (retryCount < 2) {
         retryCount++;
         await uploadresult();
         await uploadFile();
       }
-      else{
+      else {
         window.location.href = "./login.html"
       }
-      
+
     }
   } catch (error) {
     console.log(error);
