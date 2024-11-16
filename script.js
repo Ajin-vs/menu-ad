@@ -750,6 +750,7 @@ async function uploadFile(){
     
         if (response.ok) {
           console.log("Upload successful:", await response.text());
+          retryCount = 0;
         } else {
           console.error("Upload failed:", response.status, response.statusText);
         }
@@ -761,6 +762,7 @@ async function uploadFile(){
           await uploadResult();
           await uploadFile();
         } else {
+          window.location.href = "./login.html"
           console.error("Maximum retry attempts reached. Stopping.");
         }
       }
@@ -768,8 +770,11 @@ async function uploadFile(){
     else{
       if(retryCount < 2){
         retryCount++;
-        await uploadresult()
+        await uploadresult();
         await uploadFile();
+      }
+      else{
+        window.location.href = "./login.html"
       }
       
     }
