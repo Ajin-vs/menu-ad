@@ -554,6 +554,7 @@ async function addCategory(event) {
     uploadFile().then(()=>{
       closeCategoryModal();
       loadCategoryItems();
+      retryCount = 0;
       console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
     }).catch((err)=>{
       console.log(err,"after upload");
@@ -674,10 +675,13 @@ function deleteCategory(id) {
   if (confirmDelete) {
     // Remove the category from menuData based on id
     menuData.menu = menuData.menu.filter((item) => item.id !== id);
-
-    // Refresh the category list
-    loadCategoryItems();
-
+    uploadFile().then(()=>{
+      loadCategoryItems();
+      retryCount = 0;
+      console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
+    }).catch((err)=>{
+      console.log(err,"after upload");
+    })  
     console.log(`Category with ID ${id} has been deleted.`);
   }
 }
@@ -689,7 +693,14 @@ function editCategory(index) {
 
   if (newCategoryName !== null && newCategoryName.trim() !== "") {
     menuData.menu[index].category = newCategoryName; // Update category name
-    loadCategoryItems(); // Refresh the list
+    uploadFile().then(()=>{
+      closeCategoryModal();
+      loadCategoryItems();
+      retryCount = 0;
+      console.log(`Category "${newCategoryName}" added to menuData and dropdown.`);
+    }).catch((err)=>{
+      console.log(err,"after upload");
+    })    
   }
 }
 
@@ -750,7 +761,6 @@ async function uploadFile(){
     
         if (response.ok) {
           console.log("Upload successful:", await response.text());
-          retryCount = 0;
         } else {
           console.error("Upload failed:", response.status, response.statusText);
         }
