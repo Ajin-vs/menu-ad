@@ -45,27 +45,27 @@
         <form id="add-menu-form" onsubmit="addMenu(event)">
           <div class="form-group" >
             <label for="category" >Category</label>
-            <select id="category" name="category" required style="margin-top: 1px;"></select>
+            <select id="category" name="category" required style="margin-top: 1px;" ></select>
           </div>
 
           <div class="form-group">
             <label for="name" >Item Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter item name" required style="margin-top: 1px;">
+            <input type="text" id="name" name="name" placeholder="Enter item name" required style="margin-top: 1px;" autocomplete="off">
           </div>
       
           <div class="form-group">
             <label for="description">Description</label>
-            <textarea id="description" name="description" placeholder="Enter item description" style="margin-top: 1px;" ></textarea>
+            <textarea id="description" name="description" placeholder="Enter item description" style="margin-top: 1px;" autocomplete="off"></textarea>
           </div>
       
           <div class="form-group">
             <label for="price" >Price</label>
-            <input type="number" id="price" name="price" placeholder="Enter item price" required>
+            <input type="number" id="price" name="price" placeholder="Enter item price" required autocomplete="off">
           </div>
       
           <div class="form-group">
             <label for="imageFile"  style="margin-top: 1px;">Upload Image</label>
-            <input type="file" id="imageFile" name="imageFile" accept=".jpg,.jpeg,.png" onchange="generateThumbnail(this)">
+            <input type="file" id="imageFile" name="imageFile" accept=".jpg,.jpeg,.png" onchange="generateThumbnail(this)" >
           </div>
       
           <button id="menu-btn" type="submit" style="float: right;" >Add Item</button>

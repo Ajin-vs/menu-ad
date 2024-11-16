@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
+    <link rel="stylesheet" href="login.css?v=2">
     <script>
         async function login() {
             // Get values from the input fields
@@ -59,15 +60,25 @@
     </script>
 </head>
 <body>
-    <h2>Login</h2>
-    <div id="error-message" style="color: red;"></div>
-
-    <label for="username">Username:</label>
-    <input type="text" id="username" /><br><br>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" /><br><br>
-
-    <button onclick="login()">Submit</button>
-</body>
+    <header class="header">
+      <h2 style="text-align: center;">Login</h2>
+    </header>
+  
+    <div class="login-container">
+      <div id="error-message" class="error-message"></div>
+  
+      <div class="form-group">
+        <label for="username">UserId:</label>
+        <input type="text" id="username" placeholder="Enter your userid" autocomplete="off"/>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter your password" autocomplete="off"/>
+      </div>
+  
+      <button class="login-button" onclick="login()">Submit</button>
+    </div>
+  </body>
+  
 </html>
