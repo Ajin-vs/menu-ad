@@ -708,7 +708,7 @@ async function  uploadresult (){
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         localStorage.removeItem("uprl");
-        window.location.href = './login.html'; // Redirect to a new page (optional)
+        window.location.href = "./login.html"; // Redirect to a new page (optional)
     }
     
     }
@@ -717,7 +717,7 @@ async function  uploadresult (){
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       localStorage.removeItem("uprl");
-      window.location.href = './login.html'; 
+      window.location.href = "./login.html"; 
     }
   } catch (error) {
     // errorMessage.textContent = "Network error. Please try again.";
@@ -725,7 +725,7 @@ async function  uploadresult (){
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("uprl");
-    window.location.href = './login.html'; 
+    window.location.href = "./login.html"; 
 }
  
 }
