@@ -398,3 +398,19 @@ li button.delete-icon {
 li button:hover {
   opacity: 0.8; /* Add a hover effect */
 }
+  
+
+.logout-button {
+  /* background-color: aliceblue; */
+  border: none;
+  padding: 0px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  text-align: right;
+}
+
+.logout-button:hover {
+  background-color: #e0e0e0;
+}

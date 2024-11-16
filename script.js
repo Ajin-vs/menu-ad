@@ -831,4 +831,9 @@ async function uploadFile() {
     console.log(error);
   }
 }
-// uploadFile();
+function logout(){
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  localStorage.removeItem("uprl");
+  window.location.href = "./login.html"; 
+}
