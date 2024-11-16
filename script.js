@@ -5,6 +5,7 @@ let cart = [];  // Cart array to hold items
 let selected = undefined;
 let user = JSON.parse(localStorage.getItem("user"));
 let token = JSON.parse(localStorage.getItem("token"));
+let urpl = JSON.parse(localStorage.getItem("uprl"));
 let section = 'menu'
 let thumbnailBase64;
 function loadMenu(resturanId) {
@@ -688,27 +689,74 @@ function editCategory(index) {
 
 
 async function  uploadresult (){
-  if(token && user.role === 'Admin'){
-    const resturant_id = user.resturant_id
-    const response = await fetch("https://generate-upload.ajdevelopers884.workers.dev/", {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({resturant_id})
-    });
-    if (response.ok) {
-      const result = await response.json();
-      localStorage.setItem('uprl', JSON.stringify(result.url)); // Save token to localStorage
-  } else {
-      window.location.href = './login.html'; // Redirect to a new page (optional)
-  }
-  
-  }
+  try {
+    if(token && user.role === 'Admin'){
+      const resturant_id = user.resturant_id
+      const response = await fetch("https://generate-upload.ajdevelopers884.workers.dev/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({resturant_id})
+      });
+      if (response.ok) {
+        const result = await response.json();
+        localStorage.setItem('uprl', JSON.stringify(result.url)); // Save token to localStorage
+    } else {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem("uprl");
+        window.location.href = './login.html'; // Redirect to a new page (optional)
+    }
+    
+    }
+    else{
+      console.error("Fetch error:", error);
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("uprl");
+      window.location.href = './login.html'; 
+    }
+  } catch (error) {
+    // errorMessage.textContent = "Network error. Please try again.";
+    console.error("Fetch error:", error);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("uprl");
+    window.location.href = './login.html'; 
+}
+ 
 }
 
-// function uploadFile(){
-//   uploadresult
-// }
-uploadresult();
+async function uploadFile(){
+  try {
+    if(urpl && user.role === "Admin" && user.resturant_id){
+      try {
+        const response = await fetch(urpl, {
+          method: "PUT", // Use PUT or POST based on how the signed URL is configured
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(menuData) // Convert JSON object to string
+        });
+    
+        if (response.ok) {
+          console.log("Upload successful:", await response.text());
+        } else {
+          console.error("Upload failed:", response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error("Error uploading JSON:", error);
+      }
+    }
+    else{
+      await uploadresult()
+      uploadFile();
+      
+    }
+  } catch (error) {
+    
+  }
+}
+uploadFile();
