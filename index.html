@@ -4,8 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Restaurant Menu</title>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <script>
+    // Add CSS with a timestamp dynamically
+    const styleSheet = document.createElement('link');
+    styleSheet.rel = 'stylesheet';
+    styleSheet.href = `styles.css?v=${new Date().getTime()}`;
+    document.head.appendChild(styleSheet);
+  </script>
 </head>
 
 <body>
@@ -95,7 +104,13 @@
       </div>
     </div>
   </div>    
-  <script src="script.js?v=2"></script>
+  <script>
+    const script = document.createElement('script');
+     script.src = `script.js?v=${new Date().getTime()}`;
+     script.defer = true; // Ensure the script waits for the DOM to be parsed
+     document.head.appendChild(script);
+ 
+   </script>
 </body>
 
 </html>

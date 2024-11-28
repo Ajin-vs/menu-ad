@@ -103,8 +103,6 @@ function createMenu(menuData) {
       //  <img class="menu-image" src="data:image/jpeg;base64,${url}" />
 
       category.items.forEach(item => {
-        console.log(item.imageUrl, "url");
-
         const menuItem = document.createElement("div");
         menuItem.classList.add("menu-item");
         menuItem.innerHTML = `        
@@ -150,11 +148,7 @@ function createMenu(menuData) {
       // Set a debounce timer to stop updates until scrolling completes
       debounceTimer = setTimeout(() => {
         entries.forEach(entry => {
-          // console.log(entry);
-
           const categoryLink = document.querySelector(`a[href="#${entry.target.id}"]`);
-          // console.log(categoryLink);
-
           if (entry.isIntersecting) {
             let active = document.querySelector(".active-link");
             document.querySelectorAll('.category-link').forEach(link => link.classList.remove('active-link'));
@@ -192,8 +186,6 @@ function createMenu(menuData) {
 
     // Observing each category header
     document.querySelectorAll("#menu-section h2").forEach(header => {
-      console.log(header);
-
       observer.observe(header);
     });
     // Display file content in the HTML
@@ -297,8 +289,6 @@ async function addMenu(event) {
 
   // Find existing category by ID, or add a new one with a unique ID
   let existingCategory = menuData.menu.find(item => item.id === category);
-  console.log(existingCategory, "existing Category", category);
-
   if (existingCategory) {
     existingCategory.items.push(newItem);
   } else {
@@ -617,14 +607,16 @@ const param1 = urlParams.get('param1');
 //  const param2 = urlParams.get('param2');
 
 // Display the parameters on the page or use them as needed
-if (param1) {
-  console.log(param1);
-  document.addEventListener("DOMContentLoaded", () => loadMenu(param1));
-  //  document.write(`<p>Parameter 1: ${param1}</p>`);
-}
-else {
-  document.addEventListener("DOMContentLoaded", () => loadMenu());
-}
+window.onload =()=> loadMenu(param1);
+
+// if (param1) {
+//   console.log(param1);
+//   document.addEventListener("DOMContentLoaded", () => loadMenu(param1));
+//   //  document.write(`<p>Parameter 1: ${param1}</p>`);
+// }
+// else {
+//   document.addEventListener("DOMContentLoaded", () => loadMenu());
+// }
 
 
 function showSection(section) {
