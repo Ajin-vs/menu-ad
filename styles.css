@@ -68,9 +68,14 @@ header {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: auto;
   margin-bottom: 15px;
   padding: 10px;
   transition: transform 0.2s;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  width: 94%;
 }
 
 .menu-item:hover {
@@ -89,6 +94,7 @@ header {
 
 .menu-content {
   flex: 1;
+  width: 0px;
 }
 
 .menu-title {
